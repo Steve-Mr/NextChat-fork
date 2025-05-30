@@ -28,20 +28,16 @@ const DEFAULT_SYNC_STATE = {
   useProxy: true,
   proxyUrl: ApiPath.Cors as string,
 
-  [ProviderType.WebDAV]: {
+  webdav: {
     endpoint: "",
     username: "",
     password: "",
   },
 
-  [ProviderType.UpStash]: {
+  upstash: {
     endpoint: "",
     username: STORAGE_KEY,
     apiKey: "",
-  },
-
-  autoSync: {
-    onStart: false,
   },
 
   lastSyncTime: 0,
@@ -53,14 +49,9 @@ let lastSyncTime = 0;
 export const useSyncStore = createPersistStore(
   DEFAULT_SYNC_STATE,
   (set, get) => ({
-    cloudSync(): boolean {
+    cloudSync() {
       const config = get()[get().provider];
-      if (!config) {
-        return false;
-      }
-      return Object.values(config).every(
-        (c) => c != null && c.toString().length > 0,
-      );
+      return Object.values(config).every((c) => c.toString().length > 0);
     },
 
     markSyncTime() {
@@ -154,7 +145,7 @@ export const useSyncStore = createPersistStore(
   }),
   {
     name: StoreKey.Sync,
-    version: 1.3,
+    version: 1.2,
 
     migrate(persistedState, version) {
       const newState = persistedState as typeof DEFAULT_SYNC_STATE;
@@ -170,10 +161,6 @@ export const useSyncStore = createPersistStore(
         ) {
           newState.proxyUrl = "";
         }
-      }
-
-      if (version < 1.3) {
-        newState.autoSync = { ...DEFAULT_SYNC_STATE.autoSync };
       }
 
       return newState as any;
