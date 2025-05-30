@@ -119,7 +119,7 @@ export class DoubaoApi implements LLMApi {
       presence_penalty: modelConfig.presence_penalty,
       frequency_penalty: modelConfig.frequency_penalty,
       top_p: modelConfig.top_p,
-      tools: tools.length > 0 ? tools : undefined,
+      ...(Array.isArray(tools) && tools.length > 0 ? { tools } : {}),
     };
 
     const controller = new AbortController();
