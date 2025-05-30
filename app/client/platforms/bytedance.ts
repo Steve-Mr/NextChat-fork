@@ -103,7 +103,15 @@ export class DoubaoApi implements LLMApi {
     };
 
     const shouldStream = !!options.config.stream;
-    const requestPayload: RequestPayloadForByteDance = {
+
+    const [tools, funcs] = usePluginStore
+      .getState()
+      .getAsTools(
+        useChatStore.getState().currentSession().mask?.plugin || [],
+      );
+
+
+    const requestPayload: RequestPayloadForByteDance & { tools?: any } = {
       messages,
       stream: shouldStream,
       model: modelConfig.model,
@@ -111,6 +119,7 @@ export class DoubaoApi implements LLMApi {
       presence_penalty: modelConfig.presence_penalty,
       frequency_penalty: modelConfig.frequency_penalty,
       top_p: modelConfig.top_p,
+      tools: tools.length > 0 ? tools : undefined,
     };
 
     const controller = new AbortController();
