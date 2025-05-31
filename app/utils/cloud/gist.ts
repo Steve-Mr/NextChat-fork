@@ -24,6 +24,10 @@ export function createGistClient(store: SyncStore) {
 
   return {
     async create(content: string) {
+      console.log("=====content=====");
+      console.log(`${content}`);
+
+      console.log("=====content end =====");
       const description = `[200 OK] [GithubSync] Last Sync: ${currentDate} Site: ${REPO_URL}`;
 
       const contentChunks = [...chunks(content)];
@@ -128,6 +132,7 @@ export function createGistClient(store: SyncStore) {
             res.status,
             res.statusText,
           );
+          console.log("[Gist] Set A Data oF File Name", `${newContent}`);
           return newContent;
         })
         .catch((e) => {
