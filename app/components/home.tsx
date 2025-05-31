@@ -28,6 +28,9 @@ import { AuthPage } from "./auth";
 import { getClientConfig } from "../config/client";
 import { type ClientApi, getClientApi } from "../client/api";
 import { useAccessStore } from "../store";
+import { useSyncStore } from "../store/sync";
+import { showToast } from "./ui-lib";
+import Locale from "@/app/locales";
 import clsx from "clsx";
 import { initializeMcpSystem, isMcpEnabled } from "../mcp/actions";
 
@@ -157,6 +160,40 @@ export function WindowContent(props: { children: React.ReactNode }) {
   );
 }
 
+function useSyncOnStart() {
+  const syncStore = useSyncStore();
+  const storeHasHydrated = useSyncStore((s) => s._hasHydrated);
+  useEffect(() => {
+    let running = true;
+    setTimeout(async () => {
+      if (
+        !(
+          storeHasHydrated &&
+          running &&
+          syncStore.cloudSync() &&
+          syncStore.autoSync.onStart
+        )
+      ) {
+        return;
+      }
+      const dismissSyncingToast = showToast(Locale.Settings.Sync.IsSyncing);
+      try {
+        await syncStore.sync();
+        dismissSyncingToast();
+        showToast(Locale.Settings.Sync.Success);
+      } catch (e: unknown) {
+        dismissSyncingToast();
+        showToast(Locale.Settings.Sync.Fail);
+        console.error("[Sync]", e);
+      }
+    });
+    return () => {
+      running = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storeHasHydrated]);
+}
+
 function Screen() {
   const config = useAppConfig();
   const location = useLocation();
@@ -173,6 +210,7 @@ function Screen() {
   useEffect(() => {
     loadAsyncGoogleFont();
   }, []);
+  useSyncOnStart();
 
   if (isArtifact) {
     return (
