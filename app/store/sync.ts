@@ -144,7 +144,7 @@ export const useSyncStore = createPersistStore(
       return await client.check();
     },
 
-    async autoSync() {
+    async runAutoSync() {
       const { lastSyncTime, provider } = get();
       const syncStore = useSyncStore.getState();
       if (lastSyncTime && syncStore.cloudSync()) {

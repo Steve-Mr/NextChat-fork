@@ -212,9 +212,11 @@ function noticeCloudSync(): void {
   console.log("===notice cloud sync start running===");
   const syncStore = require("./sync").useSyncStore.getState();
   cloudSyncTimer && clearTimeout(cloudSyncTimer);
+  console.log("===notice cloud sync autosync calling===");
   cloudSyncTimer = setTimeout(() => {
-    syncStore.autoSync();
+    syncStore.runAutoSync();
   }, 500);
+  console.log("===notice cloud sync finished===");
 }
 async function getMcpSystemPrompt(): Promise<string> {
   const tools = await getAllTools();
