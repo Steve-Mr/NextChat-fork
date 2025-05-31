@@ -171,7 +171,7 @@ function useSyncOnStart() {
           storeHasHydrated &&
           running &&
           syncStore.cloudSync() &&
-          syncStore.autoSync.onStart
+          syncStore.enableAutoSync
         )
       ) {
         return;

@@ -500,7 +500,7 @@ function SyncConfigModal(props: { onClose?: () => void }) {
           <ListItem title={Locale.Settings.Sync.Config.AutoSync.OnStartup}>
             <input
               type="checkbox"
-              checked={syncStore.autoSync.onStart}
+              checked={syncStore.enableAutoSync}
               onChange={(e) => {
                 syncStore.update(
                   (config) =>
