@@ -206,8 +206,10 @@ function fillTemplateWith(input: string, modelConfig: ModelConfig) {
 }
 let cloudSyncTimer: any = null;
 function noticeCloudSync(): void {
+  console.log("===notice cloud sync===");
   if (typeof window === "undefined") return;
   // ✅ 包裹在 runtime 判断中，构建时不会执行
+  console.log("===notice cloud sync start running===");
   const syncStore = require("./sync").useSyncStore.getState();
   cloudSyncTimer && clearTimeout(cloudSyncTimer);
   cloudSyncTimer = setTimeout(() => {
