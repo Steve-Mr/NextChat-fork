@@ -262,6 +262,18 @@ const cn = {
           Password: "UpStash Redis REST Token",
         },
 
+        Gist: {
+          GistID: {
+            Name: "Github Gist ID",
+          },
+          FileName: {
+            Name: "文件名",
+          },
+          AccessToken: {
+            Name: "访问令牌",
+          },
+        },
+
         AutoSync: {
           OnStartup: "启动时自动同步",
         },

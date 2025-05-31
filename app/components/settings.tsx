@@ -496,6 +496,44 @@ function SyncConfigModal(props: { onClose?: () => void }) {
           </List>
         )}
 
+        {syncStore.provider === ProviderType.Gist && (
+          <List>
+            <ListItem title={Locale.Settings.Sync.Config.Gist.GistID.Name}>
+              <input
+                type="text"
+                value={syncStore.gist.username}
+                onChange={(e) => {
+                  syncStore.update(
+                    (config) => (config.gist.username = e.currentTarget.value),
+                  );
+                }}
+              ></input>
+            </ListItem>
+
+            <ListItem title={Locale.Settings.Sync.Config.Gist.FileName.Name}>
+              <input
+                type="text"
+                value={syncStore.gist.filename}
+                onChange={(e) => {
+                  syncStore.update(
+                    (config) => (config.gist.filename = e.currentTarget.value),
+                  );
+                }}
+              ></input>
+            </ListItem>
+            <ListItem title={Locale.Settings.Sync.Config.Gist.AccessToken.Name}>
+              <PasswordInput
+                value={syncStore.gist.token}
+                onChange={(e) => {
+                  syncStore.update(
+                    (config) => (config.gist.token = e.currentTarget.value),
+                  );
+                }}
+              ></PasswordInput>
+            </ListItem>
+          </List>
+        )}
+
         <List>
           <ListItem title={Locale.Settings.Sync.Config.AutoSync.OnStartup}>
             <input

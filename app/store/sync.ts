@@ -19,6 +19,12 @@ export interface WebDavConfig {
   password: string;
 }
 
+export interface GistConfig {
+  filename: string;
+  gistId: string;
+  token: string;
+}
+
 const isApp = !!getClientConfig()?.isApp;
 export type SyncStore = GetStoreState<typeof useSyncStore>;
 
@@ -38,6 +44,12 @@ const DEFAULT_SYNC_STATE = {
     endpoint: "",
     username: STORAGE_KEY,
     apiKey: "",
+  },
+
+  [ProviderType.Gist]: {
+    filename: "",
+    username: "",
+    token: "",
   },
 
   autoSync: {

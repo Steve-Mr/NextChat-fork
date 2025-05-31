@@ -266,6 +266,18 @@ const en: LocaleType = {
           Password: "UpStash Redis REST Token",
         },
 
+        Gist: {
+          GistID: {
+            Name: "Github Gist ID",
+          },
+          FileName: {
+            Name: "File Name",
+          },
+          AccessToken: {
+            Name: "Access Token",
+          },
+        },
+
         AutoSync: {
           OnStartup: "Sync on startup",
         },
