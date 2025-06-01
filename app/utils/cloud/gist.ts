@@ -8,9 +8,9 @@ export type GistClient = ReturnType<typeof createGistClient>;
 export function createGistClient(store: SyncStore) {
   let gistId = store.gist.username;
   const token = store.gist.token;
-  const fileBackup = store.gist.filename;
+  const fileBackup = store.gist.filename.trim();
   const currentDate = new Date().toLocaleString("en-US", {
-    timeZone: "UTC",
+    timeZone: "UTC+8",
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
@@ -100,6 +100,7 @@ export function createGistClient(store: SyncStore) {
         const data = await res.json();
         // 收集所有分片
         const files = data.files;
+        console.log("[Gist] Files in Gist:", Object.keys(files));
         let content = "";
         let i = 0;
         while (true) {
@@ -111,6 +112,7 @@ export function createGistClient(store: SyncStore) {
             break;
           }
         }
+        console.log("[Gist] Get Content", `${content}`);
         return content;
       }
 
