@@ -98,46 +98,50 @@ export function createGistClient(store: SyncStore) {
 
       if (res.status === 200) {
         const data = await res.json();
-        return data.files[fileBackup]?.content ?? "";
+        // 收集所有分片
+        const files = data.files;
+        let content = "";
+        let i = 0;
+        while (true) {
+          const name = i === 0 ? fileBackup : `${fileBackup}_${i}`;
+          if (files[name]?.content !== undefined) {
+            content += files[name].content;
+            i++;
+          } else {
+            break;
+          }
+        }
+        return content;
       }
 
       return "";
     },
 
-    async set(data: object) {
-      const existingContent = await this.check();
-      const newContent = JSON.stringify(data, null, 2);
+    async set(key: string, data: string) {
+      const checkResult = await this.check();
+      const contentChunks = [...chunks(data)];
       const description = `[Sync] [200 OK] [GithubGist] Last Sync: ${currentDate} Site: ${REPO_URL}`;
+      const files: { [key: string]: { content: string } | null } = {};
 
-      return fetch(this.path(gistId), {
-        method: existingContent ? "PATCH" : "POST",
-        headers: this.headers(),
-        body: JSON.stringify({
-          description,
-          files: {
-            [fileBackup]: {
-              content: newContent,
-            },
-          },
-        }),
-      })
-        .then((res) => {
-          console.log(
-            "[Gist] Set A Data oF File Name",
-            `${fileBackup}`,
-            res.status,
-            res.statusText,
-          );
-          return newContent;
-        })
-        .catch((e) => {
-          console.error(
-            "[Gist] Set A Data oF File Name",
-            `${fileBackup}`,
-            Error,
-          );
-          return "";
-        });
+      // 添加所有分片
+      for (let i = 0; i < contentChunks.length; i++) {
+        const fileName = i === 0 ? fileBackup : `${fileBackup}_${i}`;
+        files[fileName] = { content: contentChunks[i] };
+      }
+
+      if (checkResult === "success") {
+        // PATCH 更新
+        return fetch(this.path(gistId), {
+          method: "PATCH",
+          headers: this.headers(),
+          body: JSON.stringify({ description, files }),
+        }).then((res) => data);
+      } else {
+        // 创建新 gist
+        const newGistId = await this.create(data);
+        if (newGistId) gistId = newGistId;
+        return data;
+      }
     },
 
     headers() {
