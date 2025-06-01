@@ -10,7 +10,7 @@ export function createGistClient(store: SyncStore) {
   const token = store.gist.token;
   const fileBackup = store.gist.filename.trim();
   const currentDate = new Date().toLocaleString("en-US", {
-    timeZone: "UTC+8",
+    timeZone: "Asia/Shanghai",
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
