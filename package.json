@@ -31,7 +31,7 @@
     "axios": "^1.7.5",
     "clsx": "^2.1.1",
     "emoji-picker-react": "^4.9.2",
-    "fuse.js": "^7.0.0",
+    "fuse.js": "^7.1.0",
     "heic2any": "^0.0.4",
     "html-to-image": "^1.11.11",
     "idb-keyval": "^6.2.1",
