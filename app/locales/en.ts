@@ -801,6 +801,8 @@ const en: LocaleType = {
     More: "Find More",
     NotShow: "Never Show Again",
     ConfirmNoShow: "Confirm to disable？You can enable it in settings later.",
+    Thinking: "Thinking...",
+    Think: "Content of Thought",
   },
 
   UI: {

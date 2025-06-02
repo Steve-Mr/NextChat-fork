@@ -622,27 +622,22 @@ export function streamWithThink(
           if (chunk.isThinking) {
             // If in thinking mode
             if (!isInThinkingMode || isThinkingChanged) {
-              // If this is a new thinking block or mode changed, add prefix
+              // If this is a new thinking block or mode changed, add prefix with <think> tag
               isInThinkingMode = true;
               if (remainText.length > 0) {
                 remainText += "\n";
               }
-              remainText += "> " + chunk.content;
+              remainText += "<think>\n" + chunk.content;
             } else {
-              // Handle newlines in thinking content
-              if (chunk.content.includes("\n\n")) {
-                const lines = chunk.content.split("\n\n");
-                remainText += lines.join("\n\n> ");
-              } else {
-                remainText += chunk.content;
-              }
+              remainText += chunk.content;
+              // }
             }
           } else {
             // If in normal mode
             if (isInThinkingMode || isThinkingChanged) {
-              // If switching from thinking mode to normal mode
+              // If switching from thinking mode to normal mode, close think tag
               isInThinkingMode = false;
-              remainText += "\n\n" + chunk.content;
+              remainText += "\n</think>\n\n" + chunk.content;
             } else {
               remainText += chunk.content;
             }
