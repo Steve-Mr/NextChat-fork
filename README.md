@@ -230,6 +230,7 @@ SiliconFlow API URL.
 
 ## Deployment
 
+<details>
 
 #### Docker (Recommended)
 
@@ -273,6 +274,7 @@ docker run -d -p 3000:3000 \
 ```shell
 bash <(curl -s https://raw.githubusercontent.com/Steve-Mr/NextChat-fork/main/scripts/setup.sh)
 ```
+</details>
 
 ## Documentation
 
@@ -309,6 +311,8 @@ You can star or watch this project or follow author to get release notifications
 
 ## Development
 
+<details>
+
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Steve-Mr/NextChat-fork)
 
 Before starting development, you must create a new `.env.local` file at project root, and place your api key into it:
@@ -336,6 +340,8 @@ yarn dev
 #### Translation
 
 If you want to add a new translation, read this [document](./docs/translation.md).
+
+</details>
 
 ## LICENSE
 
