@@ -377,6 +377,43 @@ export function Markdown(
   } & React.DOMAttributes<HTMLDivElement>,
 ) {
   const mdRef = useRef<HTMLDivElement>(null);
+  const [autoScroll, setAutoScroll] = useState(true);
+
+  // 检测是否滚动到底部
+  const checkIfAtBottom = (target: HTMLDivElement) => {
+    const threshold = 20; // 将阈值从 100px 改为 20px
+    const bottomPosition =
+      target.scrollHeight - target.scrollTop - target.clientHeight;
+    return bottomPosition <= threshold;
+  };
+
+  // 处理滚动事件
+  useEffect(() => {
+    const parent = props.parentRef?.current;
+    if (!parent) return;
+
+    const handleScroll = () => {
+      const isAtBottom = checkIfAtBottom(parent);
+      setAutoScroll(isAtBottom);
+    };
+
+    parent.addEventListener("scroll", handleScroll);
+    return () => parent.removeEventListener("scroll", handleScroll);
+  }, [props.parentRef]);
+
+  // 自动滚动效果
+  useEffect(() => {
+    const scrollToBottom = () => {
+      if (props.parentRef?.current && autoScroll) {
+        const parent = props.parentRef.current;
+        parent.scrollTop = parent.scrollHeight;
+      }
+    };
+
+    if (props.content) {
+      scrollToBottom();
+    }
+  }, [props.content, props.parentRef, autoScroll]);
 
   return (
     <div
