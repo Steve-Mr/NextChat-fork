@@ -153,14 +153,17 @@ export class GeminiProApi implements LLMApi {
     const requestPayload = {
       contents: messages,
       generationConfig: {
-        // stopSequences: [
-        //   "Title"
-        // ],
         temperature: modelConfig.temperature,
         maxOutputTokens: modelConfig.max_tokens,
         topP: modelConfig.top_p,
-        // "topK": modelConfig.top_k,
       },
+      ...(modelConfig.model.includes("-search") && {
+        tools: [
+          {
+            google_search: {},
+          },
+        ],
+      }),
       safetySettings: [
         {
           category: "HARM_CATEGORY_HARASSMENT",
@@ -187,7 +190,7 @@ export class GeminiProApi implements LLMApi {
     try {
       // https://github.com/google-gemini/cookbook/blob/main/quickstarts/rest/Streaming_REST.ipynb
       const chatPath = this.path(
-        Google.ChatPath(modelConfig.model),
+        Google.ChatPath(modelConfig.model.replaceAll("-search", "")),
         shouldStream,
       );
 
