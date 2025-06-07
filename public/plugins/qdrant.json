@@ -1,0 +1,38 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+      "title": "qdrant",
+      "description": "使用 Qdrant 检索知识库进行 RAG",
+      "version": "v1.0.0"
+    },
+    "servers": [
+      {
+        "url": "https://fastapi.limour.top"
+      }
+    ],
+    "paths": {
+      "/qdrant/v1": {
+        "post": {
+          "operationId": "qdrant",
+          "summary": "使用 Qdrant 检索知识库进行 RAG",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["input"],
+                  "properties": {
+                    "input": {
+                      "type": "string",
+                      "description": "需要在知识库中检索的句子"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
