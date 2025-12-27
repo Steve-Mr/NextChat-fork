@@ -47,6 +47,9 @@ interface RequestPayloadForByteDance {
   frequency_penalty: number;
   top_p: number;
   max_tokens?: number;
+  thinking?: {
+    type: string;
+  };
 }
 
 export class DoubaoApi implements LLMApi {
@@ -110,7 +113,6 @@ export class DoubaoApi implements LLMApi {
         useChatStore.getState().currentSession().mask?.plugin || [],
       );
 
-
     const requestPayload: RequestPayloadForByteDance & { tools?: any } = {
       messages,
       stream: shouldStream,
@@ -121,6 +123,19 @@ export class DoubaoApi implements LLMApi {
       top_p: modelConfig.top_p,
       ...(Array.isArray(tools) && tools.length > 0 ? { tools } : {}),
     };
+
+    if (
+      modelConfig.model === "deepseek-v3-2" ||
+      modelConfig.model === "deepseek-v3-2-thinking"
+    ) {
+      requestPayload.model = "deepseek-v3-2-251201";
+      requestPayload.thinking = {
+        type:
+          modelConfig.model === "deepseek-v3-2-thinking"
+            ? "enabled"
+            : "disabled",
+      };
+    }
 
     const controller = new AbortController();
     options.onController?.(controller);
