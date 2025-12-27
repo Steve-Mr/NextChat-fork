@@ -87,13 +87,30 @@ async function request(req: NextRequest) {
       const jsonBody = JSON.parse(clonedBody) as { model?: string };
 
       // not undefined and is false
+      let isAvailable = !isModelNotavailableInServer(
+        serverConfig.customModels,
+        jsonBody?.model as string,
+        ServiceProvider.ByteDance as string,
+      );
+
       if (
-        isModelNotavailableInServer(
+        !isAvailable &&
+        jsonBody?.model === "deepseek-v3-2-251201" &&
+        (!isModelNotavailableInServer(
           serverConfig.customModels,
-          jsonBody?.model as string,
+          "deepseek-v3-2",
           ServiceProvider.ByteDance as string,
-        )
+        ) ||
+          !isModelNotavailableInServer(
+            serverConfig.customModels,
+            "deepseek-v3-2-thinking",
+            ServiceProvider.ByteDance as string,
+          ))
       ) {
+        isAvailable = true;
+      }
+
+      if (!isAvailable) {
         return NextResponse.json(
           {
             error: true,
