@@ -231,8 +231,10 @@ export class GeminiProApi implements LLMApi {
 
         // construct tools
         const toolObjects = [];
+        // @ts-ignore
         if (tools.length > 0) {
           toolObjects.push({
+            // @ts-ignore
             functionDeclarations: tools.map((tool) => tool.function),
           });
         }
