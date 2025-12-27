@@ -150,6 +150,14 @@ export class GeminiProApi implements LLMApi {
         model: options.config.model,
       },
     };
+
+    const isGoogleSearchGrounding =
+      modelConfig.model === "gemini-2.5-flash-grounding";
+
+    if (isGoogleSearchGrounding) {
+      modelConfig.model = "gemini-2.5-flash";
+    }
+
     const requestPayload = {
       contents: messages,
       generationConfig: {
@@ -191,6 +199,15 @@ export class GeminiProApi implements LLMApi {
         shouldStream,
       );
 
+      if (isGoogleSearchGrounding) {
+        // @ts-ignore
+        requestPayload["tools"] = [
+          {
+            googleSearch: {},
+          },
+        ];
+      }
+
       const chatPayload = {
         method: "POST",
         body: JSON.stringify(requestPayload),
@@ -211,15 +228,28 @@ export class GeminiProApi implements LLMApi {
           .getAsTools(
             useChatStore.getState().currentSession().mask?.plugin || [],
           );
+
+        // construct tools
+        const toolObjects = [];
+        // @ts-ignore
+        if (tools.length > 0) {
+          toolObjects.push({
+            // @ts-ignore
+            functionDeclarations: tools.map((tool) => tool.function),
+          });
+        }
+        if (isGoogleSearchGrounding) {
+          toolObjects.push({
+            googleSearch: {},
+          });
+        }
+
         return stream(
           chatPath,
           requestPayload,
           getHeaders(),
           // @ts-ignore
-          tools.length > 0
-            ? // @ts-ignore
-              [{ functionDeclarations: tools.map((tool) => tool.function) }]
-            : [],
+          toolObjects,
           funcs,
           controller,
           // parseSSE
