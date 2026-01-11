@@ -50,6 +50,7 @@ interface RequestPayloadForByteDance {
   thinking?: {
     type: string;
   };
+  reasoning_effort?: string;
 }
 
 export class DoubaoApi implements LLMApi {
@@ -123,6 +124,11 @@ export class DoubaoApi implements LLMApi {
       top_p: modelConfig.top_p,
       ...(Array.isArray(tools) && tools.length > 0 ? { tools } : {}),
     };
+
+    if (modelConfig.model.startsWith("doubao-seed")) {
+      requestPayload.reasoning_effort =
+        modelConfig.reasoning_effort || "medium";
+    }
 
     if (
       modelConfig.model === "deepseek-v3-2" ||

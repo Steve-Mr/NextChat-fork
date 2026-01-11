@@ -554,6 +554,16 @@ const cn = {
       Title: "对话摘要模型",
       SubTitle: "用于压缩历史记录、生成对话标题的模型",
     },
+    ReasoningEffort: {
+      Title: "思考程度 (reasoning_effort)",
+      SubTitle: "控制模型的思考强度",
+      Option: {
+        Minimal: "最低",
+        Low: "低",
+        Medium: "中等",
+        High: "高",
+      },
+    },
     Temperature: {
       Title: "随机性 (temperature)",
       SubTitle: "值越大，回复越随机",
