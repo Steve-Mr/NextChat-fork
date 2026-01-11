@@ -125,7 +125,7 @@ export class DoubaoApi implements LLMApi {
       ...(Array.isArray(tools) && tools.length > 0 ? { tools } : {}),
     };
 
-    if (modelConfig.model.startsWith("doubao-seed")) {
+    if (modelConfig.model.toLowerCase().startsWith("doubao-seed")) {
       requestPayload.reasoning_effort =
         modelConfig.reasoning_effort || "medium";
     }

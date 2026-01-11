@@ -49,7 +49,7 @@ export function ModelConfigList(props: {
           ))}
         </Select>
       </ListItem>
-      {props.modelConfig.model.startsWith("doubao-seed") && (
+      {props.modelConfig.model.toLowerCase().startsWith("doubao-seed") && (
         <ListItem
           title={Locale.Settings.ReasoningEffort.Title}
           subTitle={Locale.Settings.ReasoningEffort.SubTitle}

@@ -575,7 +575,7 @@ const bytedanceModels = [
   "Doubao-pro-4k",
   "Doubao-pro-32k",
   "Doubao-pro-128k",
-  "doubao-seed-1-8-251228",
+  "Doubao-seed-1-8",
   "deepseek-v3-2",
   "deepseek-v3-2-thinking",
 ];
