@@ -71,6 +71,7 @@ export const DEFAULT_CONFIG = {
     max_tokens: 4000,
     presence_penalty: 0,
     frequency_penalty: 0,
+    reasoning_effort: "medium", // minimal, low, medium, high
     sendMemory: true,
     historyMessageCount: 4,
     compressMessageLengthThreshold: 1000,
@@ -158,6 +159,12 @@ export const ModalConfigValidator = {
   },
   top_p(x: number) {
     return limitNumber(x, 0, 1, 1);
+  },
+  reasoning_effort(x: string) {
+    if (["minimal", "low", "medium", "high"].includes(x)) {
+      return x;
+    }
+    return "medium";
   },
 };
 
