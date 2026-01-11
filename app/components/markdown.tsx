@@ -312,7 +312,7 @@ ${quotedContent}
   });
 }
 
-function _MarkDownContent(props: { content: string }) {
+function MarkDownContentInner(props: { content: string }) {
   const escapedContent = useMemo(() => {
     return tryWrapHtmlCode(formatThinkText(escapeBrackets(props.content)));
   }, [props.content]);
@@ -364,7 +364,7 @@ function _MarkDownContent(props: { content: string }) {
   );
 }
 
-export const MarkdownContent = React.memo(_MarkDownContent);
+export const MarkdownContent = React.memo(MarkDownContentInner);
 
 export function Markdown(
   props: {
