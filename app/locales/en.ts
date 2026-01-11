@@ -559,6 +559,16 @@ const en: LocaleType = {
       Title: "Summary Model",
       SubTitle: "Model used to compress history and generate title",
     },
+    ReasoningEffort: {
+      Title: "Reasoning Effort",
+      SubTitle: "Control the reasoning effort of the model",
+      Option: {
+        Minimal: "Minimal",
+        Low: "Low",
+        Medium: "Medium",
+        High: "High",
+      },
+    },
     Temperature: {
       Title: "Temperature",
       SubTitle: "A larger value makes the more random output",

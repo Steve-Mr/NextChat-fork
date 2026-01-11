@@ -49,6 +49,37 @@ export function ModelConfigList(props: {
           ))}
         </Select>
       </ListItem>
+      {props.modelConfig.model.toLowerCase().startsWith("doubao-seed") && (
+        <ListItem
+          title={Locale.Settings.ReasoningEffort.Title}
+          subTitle={Locale.Settings.ReasoningEffort.SubTitle}
+        >
+          <Select
+            aria-label={Locale.Settings.ReasoningEffort.Title}
+            value={props.modelConfig.reasoning_effort ?? "medium"}
+            onChange={(e) => {
+              props.updateConfig((config) => {
+                config.reasoning_effort = ModalConfigValidator.reasoning_effort(
+                  e.currentTarget.value,
+                );
+              });
+            }}
+          >
+            <option value="minimal">
+              {Locale.Settings.ReasoningEffort.Option.Minimal}
+            </option>
+            <option value="low">
+              {Locale.Settings.ReasoningEffort.Option.Low}
+            </option>
+            <option value="medium">
+              {Locale.Settings.ReasoningEffort.Option.Medium}
+            </option>
+            <option value="high">
+              {Locale.Settings.ReasoningEffort.Option.High}
+            </option>
+          </Select>
+        </ListItem>
+      )}
       <ListItem
         title={Locale.Settings.Temperature.Title}
         subTitle={Locale.Settings.Temperature.SubTitle}
