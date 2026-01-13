@@ -1,5 +1,10 @@
 [
   {
+    "id": "google-search",
+    "name": "GoogleSearch",
+    "schema": "/plugins/google-search.json"
+  },
+  {
     "id": "dalle3",
     "name": "Dalle3",
     "schema": "/plugins/dalle.json"
