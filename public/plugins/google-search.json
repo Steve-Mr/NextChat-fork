@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Google Custom Search",
-    "description": "Search the web using Google Custom Search JSON API. Returns title, link, and snippet for search results.",
+    "description": "Search the web using Google Custom Search JSON API. Returns title, link, and snippet for search results. Usage: Set Authorization to 'Bearer' and enter 'YOUR_API_KEY;YOUR_CX' (separated by a semicolon) in the Auth Token field.",
     "version": "v1.0.0"
   },
   "servers": [
